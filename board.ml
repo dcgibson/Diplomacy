@@ -84,6 +84,20 @@ struct
             (string_of_province !(x.occupies)) ^ " (" ^
             (string_of_country x.belongs_to) ^ ")"
 
+        let string_of_board (bd : board) : string =
+            let rec string_of_provs (lst : province list) : string =
+                match lst with
+                | [] -> ""
+                | h::t -> (string_of_province h) ^ "\n" ^ string_of_provs t
+            in
+            let rec string_of_forces (lst : (force ref) list) : string =
+                match lst with
+                | [] -> ""
+                | h::t -> (string_of_force !h) ^ "\n" ^ string_of_forces t
+            in
+            "Provinces:\n" ^ (string_of_provs bd.provs) ^
+            "Forces:\n" ^ (string_of_forces bd.forces)
+
     end
 
 end

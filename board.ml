@@ -17,7 +17,9 @@ struct
 
     type force = {name : branch; 
                   belongs_to : country;
-                  occupies : province ref;}
+                  occupies : province ref;
+                  mutable hold_strength : int;
+                  mutable attack_strength : int;}
 
     (** Provinces are (mostly) immutable, the tiles upon which the forces
         shall move and be created **)
@@ -33,6 +35,9 @@ struct
 
     type judge = Resolved | Unresolved
     type result = Bounce | Success
+
+    type path = Valid of province list | Invalid
+    type order = Attack of path | Hold | Support of force | Convoy of path
 
     let is_adjacent (p1 : province) (p2 : province) : bool =
         let rec lst_search lst name =

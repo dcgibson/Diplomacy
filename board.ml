@@ -44,22 +44,7 @@ struct
             | [] -> false
             | h::t -> if h = name then true else lst_search t name
         in
-        lst_search p1.adjacent p2
-
-    let attack (bd : board) (aggressor : force) (dest : province) =
-        (** Check whether provinces are adjacent **)
-        if is_adjacent !(aggressor.occupies) dest = false then raise NotAdjacent
-        (** Check whether dest is unoccupied
-            Will be changed later when support + judge are introduced **)
-        else if !(dest.occupied) = true then None
-        (** 1. Change the occupied status of both provinces
-            2. Change the province force points at
-                (WILL THIS BE REFLECTED IN GAME BOARD ?!?!?
-                 I THINK SO **)
-        else Some (!(aggressor.occupies).occupied := false;
-              dest.occupied := true;
-              aggressor.occupies := dest;)
-        
+        lst_search p1.adjacent p2       
 
     module ToString = 
     struct
@@ -103,6 +88,41 @@ struct
             "Forces:\n" ^ (string_of_forces bd.forces)
 
     end
+
+    let init_board =
+        let m = {
+            provs = [ 
+               cly = {
+                name = "CLY";
+                supply = false;
+                homeland = England;
+                climate = Coastal;
+                held_by = England;
+                occupied = false;
+                adjacent = [edi; yor];
+               }
+               edi = {
+                   name = "EDI";
+                   supply = true;
+                   homeland = England;
+                   climate = Coastal;
+                   held_by = England;
+                   occupied = true;
+                   adjacent = [cly; yor];
+               }
+               yor = {
+                   name = "YOR";
+                   supply = true;
+                   homeland = England;
+                   climate = Coastal;
+                   held_by = England;
+                   occupied = true;
+                   adjacent = [cly; edi];
+               }
+            ]
+            forces = []
+        } in
+        m
 
 end
 

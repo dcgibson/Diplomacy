@@ -1,4 +1,4 @@
-module MapBoard =
+module Board =
 struct
     type country = England | France | Germany | Russia | Italy |
                    Turkey | AH | Neutral
@@ -14,30 +14,29 @@ struct
                      adjacent : province list;}
     exception NotAdjacent
     type branch = Army | Fleet
-
-    type force = {name : branch; 
-                  belongs_to : country;
-                  occupies : province ref;
-                  mutable hold_strength : int;
-                  mutable attack_strength : int;}
+    (** Mutually recursive types **)
+    type state = Succeeds | Fails | Unresolved
+    type order = Attack of province | Hold | Support of force | Convoy of force * province
+    and
+    force = {name : branch; 
+             belongs_to : country;
+             occupies : province ref;
+             mutable hold_strength : int;
+             mutable attack_strength : int;
+             command : order option;
+             command_state : state}
+    
 
     (** Provinces are (mostly) immutable, the tiles upon which the forces
         shall move and be created **)
     type board = {provs : province list;
                   forces : (force ref) list;}
-
     type player = {name : country;
                   supply_centers : (province ref) list;
                   force_list : (force ref) list;}
 
     type phase = Move | Retreat
     type season = Spring of phase | Fall of phase | Adjustment
-
-    type judge = Resolved | Unresolved
-    type result = Bounce | Success
-
-    type path = Valid of province list | Invalid
-    type order = Attack of path | Hold | Support of force | Convoy of path
 
     let is_adjacent (p1 : province) (p2 : province) : bool =
         let rec lst_search lst name =

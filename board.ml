@@ -29,7 +29,7 @@ struct
         shall move and be created **)
     type board = {provs : province list;
                   forces : (force ref) list;
-                  ajacents : (province * province) list;}
+                  adjacents : (province * province) list;}
     type player = {name : country;
                   supply_centers : (province ref) list;
                   force_list : (force ref) list;}
@@ -37,13 +37,15 @@ struct
     type phase = Move | Retreat
     type season = Spring of phase | Fall of phase | Adjustment
 
-    let is_adjacent (p1 : province) (p2 : province) : bool =
-        let rec lst_search lst name =
-            match lst with
-            | [] -> false
-            | h::t -> if h = name then true else lst_search t name
+    let is_adjacent (bd : board) (p1 : province) (p2 : province) : bool =
+      let rec adj_search lst n1 n2 =
+        match lst with
+        | [] -> false
+        | (h1, h2) :: t -> if (h1 = n1 && h2 = n2) || (h1 = n2 && h2 = n1)
+                           then true
+                           else adj_search t n1 n2
         in
-        lst_search p1.adjacent p2       
+        adj_search bd.adjacents p1 p2
 
     module ToString = 
     struct
@@ -98,7 +100,6 @@ struct
                 climate = Coastal;
                 held_by = England;
                 occupied = false;
-                adjacent = [edi; yor];
                }
                edi = {
                    name = "EDI";
@@ -107,7 +108,6 @@ struct
                    climate = Coastal;
                    held_by = England;
                    occupied = true;
-                   adjacent = [cly; yor];
                }
                yor = {
                    name = "YOR";
@@ -116,7 +116,6 @@ struct
                    climate = Coastal;
                    held_by = England;
                    occupied = true;
-                   adjacent = [cly; edi];
                }
             ]
             forces = []

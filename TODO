@@ -1,5 +1,6 @@
 TODO:
 
-1. Remove adjacencies from province type
-2. Create seperate holding for them
-3. Improve function for init_board, matching on list?
+
+1. Update string_of_board to reflect adjacency info? Maybe not
+2. init_board function
+3. other adjacency updates?

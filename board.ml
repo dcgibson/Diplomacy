@@ -9,9 +9,7 @@ struct
                      climate : climate;
                      held_by : country ref;
                      occupied : bool ref;
-                     (** Provinces will hold a list of the 
-                         provinces they're adjacent to **)
-                     adjacent : province list;}
+                     }
     exception NotAdjacent
     type branch = Army | Fleet
     (** Mutually recursive types **)
@@ -30,7 +28,8 @@ struct
     (** Provinces are (mostly) immutable, the tiles upon which the forces
         shall move and be created **)
     type board = {provs : province list;
-                  forces : (force ref) list;}
+                  forces : (force ref) list;
+                  ajacents : (province * province) list;}
     type player = {name : country;
                   supply_centers : (province ref) list;
                   force_list : (force ref) list;}

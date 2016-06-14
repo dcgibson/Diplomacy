@@ -49,9 +49,10 @@ struct
                            else adj_search t n1 n2
         in
         adj_search bd.adjacents p1 p2
-
-    let add_force (bd : board) (prov : province) =
-
+    
+    (** Generate force and add to board  
+    let gen_force (bd : board) (prov : province) =
+    **)
 
     module ToString = 
     struct

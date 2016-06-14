@@ -3,4 +3,5 @@ TODO:
 
 1. Create function to initialize forces
     - trouble with generating names for forces
+    - use ctr function to auto generate names
 2. init_board function

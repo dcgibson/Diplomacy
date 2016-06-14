@@ -38,7 +38,8 @@ struct
 
     type phase = Move | Retreat
     type season = Spring of phase | Fall of phase | Adjustment
-
+    
+    (** Works with most recent change to type board **)
     let is_adjacent (bd : board) (p1 : province) (p2 : province) : bool =
       let rec adj_search lst n1 n2 =
         match lst with
@@ -48,6 +49,9 @@ struct
                            else adj_search t n1 n2
         in
         adj_search bd.adjacents p1 p2
+
+    let add_force (bd : board) (prov : province) =
+
 
     module ToString = 
     struct
@@ -64,7 +68,7 @@ struct
 
         let string_of_province (x : province) : string =
             x.name
-
+hoe
         (** Army Pic (England) **)
         let string_of_force (x : force) : string =
             let string_of_branch (name : branch) : string =
@@ -93,7 +97,30 @@ struct
     end
 
     let init_board =
-        
+        let cly = {
+            name = "CLY";
+            supply = false;
+            homeland = England;
+            climate = Coastal;
+            held_by = ref England;
+            occupied = ref False;
+        } in
+        let edi = {
+            name = "EDI";
+            supply = true;
+            homeland = England;
+            climate = Coastal;
+            held_by = ref England;
+            occupied = ref true;
+        } in
+        let yor = {
+            name = "YOR";
+            supply = false;
+            homeland = England;
+            climate = Coastal;
+            held_by = ref England;
+            occupied = ref false;
+        } in        
 
 end
 

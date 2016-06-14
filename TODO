@@ -1,6 +1,6 @@
 TODO:
 
 
-1. Update string_of_board to reflect adjacency info? Maybe not
+1. Create function to initialize forces
+    - trouble with generating names for forces
 2. init_board function
-3. other adjacency updates?

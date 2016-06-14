@@ -14,14 +14,16 @@ struct
     type branch = Army | Fleet
     (** Mutually recursive types **)
     type state = Succeeds | Fails | Unresolved
-    type order = Attack of province | Hold | Support of force | Convoy of force * province
+    type movePath = province list 
+    type order = Attack of movePath | Hold | Support of force |
+                 Convoy of force * movePath | Void
     and
     force = {name : branch; 
              belongs_to : country;
              occupies : province ref;
              mutable hold_strength : int;
              mutable attack_strength : int;
-             command : order option;
+             command : order ref;
              command_state : state}
     
 
@@ -91,36 +93,7 @@ struct
     end
 
     let init_board =
-        let m = {
-            provs = [ 
-               cly = {
-                name = "CLY";
-                supply = false;
-                homeland = England;
-                climate = Coastal;
-                held_by = England;
-                occupied = false;
-               }
-               edi = {
-                   name = "EDI";
-                   supply = true;
-                   homeland = England;
-                   climate = Coastal;
-                   held_by = England;
-                   occupied = true;
-               }
-               yor = {
-                   name = "YOR";
-                   supply = true;
-                   homeland = England;
-                   climate = Coastal;
-                   held_by = England;
-                   occupied = true;
-               }
-            ]
-            forces = []
-        } in
-        m
+        
 
 end
 

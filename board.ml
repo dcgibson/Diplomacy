@@ -24,7 +24,7 @@ struct
              mutable hold_strength : int;
              mutable attack_strength : int;
              command : order ref;
-             command_state : state}
+             command_state : state ref;}
     
     (** Ctr for force variable names **)
     let c = ref 0
@@ -54,11 +54,20 @@ struct
                            else adj_search t n1 n2
         in
         adj_search bd.adjacents p1 p2
-    
+   
+    (** Generate force and add it to the board **)
     let gen_force (bd : board) (prov : province) =
         let num = string_of_int (ctr ()) in
-        
-
+        let name = "force" ^ num in
+        Hashtbl.add bd.forces name {name = Army;
+                                    belongs_to = prov.homeland;
+                                    occupies = ref prov;
+                                    hold_strength = 1;
+                                    attack_strength = 0;
+                                    command = ref Void;
+                                    command_state = ref Unresolved;
+                                    }
+                               
     module ToString = 
     struct
         let string_of_country (x : country) : string =
@@ -85,7 +94,7 @@ struct
             (string_of_branch x.name) ^ " " ^ 
             (string_of_province !(x.occupies)) ^ " (" ^
             (string_of_country x.belongs_to) ^ ")"
-
+(**
         let string_of_board (bd : board) : string =
             let rec string_of_provs (lst : province list) : string =
                 match lst with
@@ -99,7 +108,7 @@ struct
             in
             "Provinces:\n" ^ (string_of_provs bd.provs) ^
             "Forces:\n" ^ (string_of_forces bd.forces)
-
+**)
     end
 (**
     let init_board =

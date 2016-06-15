@@ -35,7 +35,7 @@ struct
     (** Provinces are (mostly) immutable, the tiles upon which the forces
         shall move and be created **)
     type board = {provs : province list;
-                  forces : (force ref) list;
+                  forces : (string, force) Hashtbl.t;
                   adjacents : (province * province) list;}
     type player = {name : country;
                   supply_centers : (province ref) list;
@@ -55,9 +55,9 @@ struct
         in
         adj_search bd.adjacents p1 p2
     
-    (** Generate force and add to board  
     let gen_force (bd : board) (prov : province) =
-    **)
+        let num = string_of_int (ctr ()) in
+        
 
     module ToString = 
     struct

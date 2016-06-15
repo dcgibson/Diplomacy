@@ -1,7 +1,8 @@
-TODO:
-
-
 1. Create function to initialize forces
     - trouble with generating names for forces
     - use ctr function to auto generate names
+    - use hashtbl to tie strings to forces
 2. init_board function
+3. Maybe change implementation to mutable dictionary with immutable keys being
+   provinces and mutable values being forces
+   - Use hashtbl module

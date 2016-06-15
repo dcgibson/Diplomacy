@@ -26,6 +26,11 @@ struct
              command : order ref;
              command_state : state}
     
+    (** Ctr for force variable names **)
+    let c = ref 0
+    let ctr () : int =
+        let v = !c in
+        (c := v + 1 ; v)
 
     (** Provinces are (mostly) immutable, the tiles upon which the forces
         shall move and be created **)
@@ -69,7 +74,7 @@ struct
 
         let string_of_province (x : province) : string =
             x.name
-hoe
+
         (** Army Pic (England) **)
         let string_of_force (x : force) : string =
             let string_of_branch (name : branch) : string =
@@ -96,7 +101,7 @@ hoe
             "Forces:\n" ^ (string_of_forces bd.forces)
 
     end
-
+(**
     let init_board =
         let cly = {
             name = "CLY";
@@ -122,7 +127,7 @@ hoe
             held_by = ref England;
             occupied = ref false;
         } in        
-
+**)
 end
 
 

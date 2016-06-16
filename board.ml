@@ -127,15 +127,15 @@ struct
             "Forces:\n" ^ (string_of_forces bd.forces)
 
     end
-(**
-    let init_board =
+
+    let init_board () =
         let cly = {
             name = "CLY";
             supply = false;
             homeland = England;
             climate = Coastal;
             held_by = ref England;
-            occupied = ref False;
+            occupied = ref false;
         } in
         let edi = {
             name = "EDI";
@@ -153,7 +153,14 @@ struct
             held_by = ref England;
             occupied = ref false;
         } in        
-**)
+        
+        let game_board = {provs = [cly; edi; yor];
+                      forces = Hashtbl.create 30;
+                      adjacents = [(cly, edi); (cly, yor); (edi, yor)];
+                     } in
+        gen_force game_board edi ~fleet:false;
+        gen_force game_board yor ~fleet:false;
+
 end
 
 

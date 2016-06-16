@@ -168,4 +168,3 @@ struct
     
 end;;
 
-Board.init_board ();

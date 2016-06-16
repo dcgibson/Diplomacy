@@ -1,5 +1,6 @@
 1. Fix string_of_board to reflect use of hashtbl
     - use Hashtbl.iter
+    - maybe Hashtbl.fold
 2. Fix gen_force to allow generation of Fleets as well
     - have extra argument
     - need to test on province climate

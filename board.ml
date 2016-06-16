@@ -56,10 +56,13 @@ struct
         adj_search bd.adjacents p1 p2
    
     (** Generate force and add it to the board **)
-    let gen_force (bd : board) (prov : province) =
+    let gen_force (bd : board) (prov : province) ?(fleet = false) =
         let num = string_of_int (ctr ()) in
-        let name = "force" ^ num in
-        Hashtbl.add bd.forces name {name = Army;
+        let id = "force" ^ num in
+        if (prov.climate = Coastal || fleet = true)
+        then branch = Fleet
+        else branch = Army
+        Hashtbl.add bd.forces id {name = branch;
                                     belongs_to = prov.homeland;
                                     occupies = ref prov;
                                     hold_strength = 1;
@@ -101,9 +104,10 @@ struct
                 | [] -> ""
                 | h::t -> (string_of_province h) ^ "\n" ^ string_of_provs t
             in
+            (** STILL NEEDS WORK 
             let string_of_forces (tbl : (string, force) Hashtbl.t) =
-                Hashtbl
-            in
+                Hashtbl.iter (fun (key, value) -> string_of_force value) bd.forces 
+            in **)
             "Provinces:\n" ^ (string_of_provs bd.provs) ^
             "Forces:\n" ^ (string_of_forces bd.forces)
 

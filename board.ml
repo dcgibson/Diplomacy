@@ -10,7 +10,6 @@ struct
                      held_by : country ref;
                      occupied : bool ref;
                      }
-    exception NotAdjacent
     type branch = Army | Fleet
     (** Mutually recursive types **)
     type state = Succeeds | Fails | Unresolved
@@ -43,6 +42,9 @@ struct
 
     type phase = Move | Retreat
     type season = Spring of phase | Fall of phase | Adjustment
+
+    exception NotAdjacent
+    exception NotSupplyCenter
     
     (** Works with most recent change to type board **)
     let is_adjacent (bd : board) (p1 : province) (p2 : province) : bool =
@@ -56,11 +58,14 @@ struct
         adj_search bd.adjacents p1 p2
    
     (** Generate force and add it to the board **)
-    let gen_force (bd : board) (prov : province) ?(fleet = false) =
-        let num = string_of_int (ctr ()) in
-        let id = "force" ^ num in
-        if (prov.climate = Coastal || fleet = true)
-        then Hashtbl.add bd.forces id {name = Fleet;
+    let gen_force (prov : province) ?(fleet = false) (bd : board) =
+        match prov.supply with
+        | false -> raise NotSupplyCenter
+        | true ->
+            let num = string_of_int (ctr ()) in
+            let id = "force" ^ num in
+            if (prov.climate = Coastal || fleet = true)
+            then Hashtbl.add bd.forces id {name = Fleet;
                                        belongs_to = prov.homeland;
                                        occupies = ref prov;
                                        hold_strength = 1;
@@ -68,7 +73,7 @@ struct
                                        command = ref Void;
                                        command_state = ref Unresolved;
                                        }
-        else Hashtbl.add bd.forces id {name = Army;
+            else Hashtbl.add bd.forces id {name = Army;
                                        belongs_to = prov.homeland;
                                        occupies = ref prov;
                                        hold_strength = 1;
@@ -76,6 +81,39 @@ struct
                                        command = ref Void;
                                        command_state = ref Unresolved;
                                        }
+
+    let init_board () =
+        let cly = {
+            name = "CLY";
+            supply = false;
+            homeland = England;
+            climate = Coastal;
+            held_by = ref England;
+            occupied = ref false;
+        } in
+        let edi = {
+            name = "EDI";
+            supply = true;
+            homeland = England;
+            climate = Coastal;
+            held_by = ref England;
+            occupied = ref true;
+        } in
+        let yor = {
+            name = "YOR";
+            supply = false;
+            homeland = England;
+            climate = Coastal;
+            held_by = ref England;
+            occupied = ref false;
+        } in        
+        
+        let game_board = {provs = [cly; edi; yor];
+                      forces = Hashtbl.create 30;
+                      adjacents = [(cly, edi); (cly, yor); (edi, yor)];
+                     } in
+        gen_force cly game_board;
+        gen_force edi ~fleet:true game_board;
                                
     module ToString = 
     struct
@@ -127,41 +165,7 @@ struct
             "Forces:\n" ^ (string_of_forces bd.forces)
 
     end
+    
+end;;
 
-    let init_board () =
-        let cly = {
-            name = "CLY";
-            supply = false;
-            homeland = England;
-            climate = Coastal;
-            held_by = ref England;
-            occupied = ref false;
-        } in
-        let edi = {
-            name = "EDI";
-            supply = true;
-            homeland = England;
-            climate = Coastal;
-            held_by = ref England;
-            occupied = ref true;
-        } in
-        let yor = {
-            name = "YOR";
-            supply = false;
-            homeland = England;
-            climate = Coastal;
-            held_by = ref England;
-            occupied = ref false;
-        } in        
-        
-        let game_board = {provs = [cly; edi; yor];
-                      forces = Hashtbl.create 30;
-                      adjacents = [(cly, edi); (cly, yor); (edi, yor)];
-                     } in
-        gen_force game_board edi ~fleet:false;
-        gen_force game_board yor ~fleet:false;
-
-end
-
-
-
+Board.init_board ();

@@ -60,16 +60,22 @@ struct
         let num = string_of_int (ctr ()) in
         let id = "force" ^ num in
         if (prov.climate = Coastal || fleet = true)
-        then branch = Fleet
-        else branch = Army
-        Hashtbl.add bd.forces id {name = branch;
-                                    belongs_to = prov.homeland;
-                                    occupies = ref prov;
-                                    hold_strength = 1;
-                                    attack_strength = 0;
-                                    command = ref Void;
-                                    command_state = ref Unresolved;
-                                    }
+        then Hashtbl.add bd.forces id {name = Fleet;
+                                       belongs_to = prov.homeland;
+                                       occupies = ref prov;
+                                       hold_strength = 1;
+                                       attack_strength = 0;
+                                       command = ref Void;
+                                       command_state = ref Unresolved;
+                                       }
+        else Hashtbl.add bd.forces id {name = Army;
+                                       belongs_to = prov.homeland;
+                                       occupies = ref prov;
+                                       hold_strength = 1;
+                                       attack_strength = 0;
+                                       command = ref Void;
+                                       command_state = ref Unresolved;
+                                       }
                                
     module ToString = 
     struct
@@ -104,10 +110,19 @@ struct
                 | [] -> ""
                 | h::t -> (string_of_province h) ^ "\n" ^ string_of_provs t
             in
-            (** STILL NEEDS WORK 
+            (** First creates list of forces from hashtbl,
+             * then recursively loops through, converting forces
+             * to strings **)
             let string_of_forces (tbl : (string, force) Hashtbl.t) =
-                Hashtbl.iter (fun (key, value) -> string_of_force value) bd.forces 
-            in **)
+                let lst = Hashtbl.fold (fun _ value l -> value :: l) tbl []
+                in
+                let rec helper (lst : force list) : string =
+                    match lst with
+                    | [] -> ""
+                    | h::t -> (string_of_force h) ^ "\n" ^ helper t
+                in
+                helper lst
+            in
             "Provinces:\n" ^ (string_of_provs bd.provs) ^
             "Forces:\n" ^ (string_of_forces bd.forces)
 

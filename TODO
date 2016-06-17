@@ -3,3 +3,11 @@
     - Print out starting board
     - Inform player of the country they are
     - Ask for starting moves
+
+2. Continue work on init_board
+    - Add more provinces
+    - Create forces by matching based on name of province for fleets, all else armies?
+
+3. FIX INIT_FORCES
+    - Right now pretty sure it's infinitely recursive
+    - maybe have helper function to loop through bd.provs?

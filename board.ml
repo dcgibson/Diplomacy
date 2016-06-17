@@ -96,8 +96,8 @@ struct
                                             (is_adjacent bd ((!(fc.occupies))::move_path))
         | _ -> true
 
-
-    let init_board () =
+   
+    let init_board () : board =
         let cly = {
             name = "CLY";
             supply = false;
@@ -112,7 +112,7 @@ struct
             homeland = England;
             climate = Coastal;
             held_by = ref England;
-            occupied = ref true;
+            occupied = ref false;
         } in
         let yor = {
             name = "YOR";
@@ -123,12 +123,20 @@ struct
             occupied = ref false;
         } in        
         
-        let game_board = {provs = [cly; edi; yor];
-                      forces = Hashtbl.create 30;
-                      adjacents = [(cly, edi); (cly, yor); (edi, yor)];
-                     } in
-        gen_force cly game_board;
-        gen_force edi ~fleet:true game_board;
+        {provs = [cly; edi; yor];
+         forces = Hashtbl.create 30;
+         adjacents = [(cly, edi); (cly, yor); (edi, yor)];
+        }
+
+    let rec init_forces (bd : board) : unit =
+        match bd.provs with
+        | [] -> () 
+        | h::t -> 
+            match h with
+            | edi -> gen_force edi ~fleet:true bd; init_forces bd
+            | _ -> init_forces bd 
+
+
                                
     module ToString = 
     struct
@@ -182,4 +190,8 @@ struct
     end
     
 end;;
+
+let game_board = (Board.init_board ()) in
+print_string (Board.ToString.string_of_board game_board);
+
 

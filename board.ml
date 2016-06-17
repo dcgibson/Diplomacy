@@ -11,17 +11,15 @@ struct
                      occupied : bool ref;
                      }
     type branch = Army | Fleet
-    (** Mutually recursive types **)
     type state = Succeeds | Fails | Unresolved
-    type movePath = province list 
-    type order = Attack of movePath | Hold | Support of force |
-                 Convoy of force * movePath | Void
+    type order = Attack of province list | Hold | Support of force |
+                 Convoy of force * province list | Void
     and
     force = {name : branch; 
              belongs_to : country;
              occupies : province ref;
-             mutable hold_strength : int;
-             mutable attack_strength : int;
+             hold_strength : int ref;
+             attack_strength : int ref;
              command : order ref;
              command_state : state ref;}
     
@@ -68,19 +66,25 @@ struct
             then Hashtbl.add bd.forces id {name = Fleet;
                                        belongs_to = prov.homeland;
                                        occupies = ref prov;
-                                       hold_strength = 1;
-                                       attack_strength = 0;
+                                       hold_strength = ref 1;
+                                       attack_strength = ref 0;
                                        command = ref Void;
                                        command_state = ref Unresolved;
                                        }
             else Hashtbl.add bd.forces id {name = Army;
                                        belongs_to = prov.homeland;
                                        occupies = ref prov;
-                                       hold_strength = 1;
-                                       attack_strength = 0;
+                                       hold_strength = ref 1;
+                                       attack_strength = ref 0;
                                        command = ref Void;
                                        command_state = ref Unresolved;
                                        }
+    (** Should inspect the order value for a province and test it's valid **)
+    let valid_order (bd : board) (fc : province) : bool =
+        match !fc.command with
+        | Attack() -> is_adjacent bd h m
+        | Support(h::m::t)
+
 
     let init_board () =
         let cly = {

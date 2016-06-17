@@ -4,5 +4,8 @@
     - Inform player of the country they are
     - Ask for starting moves
 2. Create function to test validity of orders
+    - change is_adjacent
+        ~ must test the PATH, not just two provinces
+        ~ return true as base case, false if two provinces aren't adjacent?
  
 

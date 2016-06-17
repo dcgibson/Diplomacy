@@ -128,14 +128,17 @@ struct
          adjacents = [(cly, edi); (cly, yor); (edi, yor)];
         }
 
-    let rec init_forces (bd : board) : unit =
-        match bd.provs with
-        | [] -> () 
-        | h::t -> 
-            match h with
-            | edi -> gen_force edi ~fleet:true bd; init_forces bd
-            | _ -> init_forces bd 
-
+    let init_forces (bd : board) =
+        let rec helper lst =
+            match lst with
+            | [] -> ()
+            | h::t -> (
+                match h with
+                | edi -> gen_force edi ~fleet:true bd; helper t
+                | _ -> helper t
+            )
+        in
+        helper bd.provs
 
                                
     module ToString = 

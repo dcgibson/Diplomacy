@@ -23,11 +23,6 @@ struct
              command : order ref;
              command_state : state ref;}
     
-    (** Ctr for force variable names **)
-    let c = ref 0
-    let ctr () : int =
-        let v = !c in
-        (c := v + 1 ; v)
 
     (** Provinces are (mostly) immutable, the tiles upon which the forces
         shall move and be created **)
@@ -43,18 +38,16 @@ struct
 
     exception NotAdjacent
     exception NotSupplyCenter
-    
-    (** Works with most recent change to type board 
-    let is_adjacent (bd : board) (p1 : province) (p2 : province) : bool =
-      let rec adj_search lst n1 n2 =
-        match lst with
-        | [] -> false
-        | (h1, h2) :: t -> if (h1 = n1 && h2 = n2) || (h1 = n2 && h2 = n1)
-                           then true
-                           else adj_search t n1 n2
-        in
-        adj_search bd.adjacents p1 p2
-**)
+ 
+    (** Ctr for force variable names **)
+    let c = ref 0
+    let ctr () : int =
+        let v = !c in
+        (c := v + 1 ; v) 
+
+    (** Tests whether a province list is a valid path.
+     * Basically whether each pair of provinces in the
+     * list are a tuple in the game board's adjacent list. **)
     let rec is_adjacent (bd : board) (lst : province list) : bool =
         (** Searches the adjacency list of board for two names together **)
         let rec adj_search lst n1 n2 =
@@ -64,7 +57,6 @@ struct
                                then true
                                else adj_search t n1 n2
         in
-        
         match lst with
         | [] -> true
         | _::[] -> true
@@ -98,7 +90,10 @@ struct
     (** Should inspect the order value for a province and test it's valid **)
     let valid_order (bd : board) (fc : force) : bool =
         match !(fc.command) with
-        | Attack(h::m::t) -> is_adjacent bd h m
+        | Attack(move_path) -> is_adjacent bd move_path 
+        | Support(other_force) -> is_adjacent bd [!(fc.occupies); !(other_force.occupies)]
+        | Convoy(other_force, move_path) -> (is_adjacent bd [!(fc.occupies); !(other_force.occupies)]) &&
+                                            (is_adjacent bd ((!(fc.occupies))::move_path))
         | _ -> true
 
 

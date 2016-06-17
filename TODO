@@ -3,4 +3,3 @@
     - Print out starting board
     - Inform player of the country they are
     - Ask for starting moves
-2. Create function to test validity of orders

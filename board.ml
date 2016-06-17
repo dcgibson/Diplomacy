@@ -63,30 +63,33 @@ struct
         | h::m::t -> if (adj_search bd.adjacents h m) then (is_adjacent bd (m::t))  
                      else false
    
-    (** Generate force and add it to the board **)
+    (** Generate force and add it to the board.
+     * Needs to also change the province occupied
+     * status to be true. **)
     let gen_force (prov : province) ?(fleet = false) (bd : board) =
         match prov.supply with
         | false -> raise NotSupplyCenter
-        | true ->
+        | true -> (
             let num = string_of_int (ctr ()) in
             let id = "force" ^ num in
             if (prov.climate = Coastal || fleet = true)
-            then Hashtbl.add bd.forces id {name = Fleet;
+            then (Hashtbl.add bd.forces id {name = Fleet;
                                        belongs_to = prov.homeland;
                                        occupies = ref prov;
                                        hold_strength = ref 1;
                                        attack_strength = ref 0;
                                        command = ref Void;
                                        command_state = ref Unresolved;
-                                       }
-            else Hashtbl.add bd.forces id {name = Army;
+            }; prov.occupied := true)
+            else (Hashtbl.add bd.forces id {name = Army;
                                        belongs_to = prov.homeland;
                                        occupies = ref prov;
                                        hold_strength = ref 1;
                                        attack_strength = ref 0;
                                        command = ref Void;
                                        command_state = ref Unresolved;
-                                       }
+            }; prov.occupied := true)
+        )
     (** Should inspect the order value for a province and test it's valid **)
     let valid_order (bd : board) (fc : force) : bool =
         match !(fc.command) with
@@ -122,6 +125,14 @@ struct
             held_by = ref England;
             occupied = ref false;
         } in        
+        let lon = {
+            name = "LON";
+            supply = true;
+            homeland = England;
+            climate = Coastal;
+            held_by = ref England;
+            occupied = ref false;
+        } in
         
         {provs = [cly; edi; yor];
          forces = Hashtbl.create 30;

@@ -44,7 +44,7 @@ struct
     exception NotAdjacent
     exception NotSupplyCenter
     
-    (** Works with most recent change to type board **)
+    (** Works with most recent change to type board 
     let is_adjacent (bd : board) (p1 : province) (p2 : province) : bool =
       let rec adj_search lst n1 n2 =
         match lst with
@@ -54,6 +54,22 @@ struct
                            else adj_search t n1 n2
         in
         adj_search bd.adjacents p1 p2
+**)
+    let rec is_adjacent (bd : board) (lst : province list) : bool =
+        (** Searches the adjacency list of board for two names together **)
+        let rec adj_search lst n1 n2 =
+            match lst with
+            | [] -> false
+            | (h1, h2) :: t -> if (h1 = n1 && h2 = n2) || (h1 = n2 && h2 = n1)
+                               then true
+                               else adj_search t n1 n2
+        in
+        
+        match lst with
+        | [] -> true
+        | _::[] -> true
+        | h::m::t -> if (adj_search bd.adjacents h m) then (is_adjacent bd (m::t))  
+                     else false
    
     (** Generate force and add it to the board **)
     let gen_force (prov : province) ?(fleet = false) (bd : board) =
@@ -80,10 +96,10 @@ struct
                                        command_state = ref Unresolved;
                                        }
     (** Should inspect the order value for a province and test it's valid **)
-    let valid_order (bd : board) (fc : province) : bool =
-        match !fc.command with
-        | Attack() -> is_adjacent bd h m
-        | Support(h::m::t)
+    let valid_order (bd : board) (fc : force) : bool =
+        match !(fc.command) with
+        | Attack(h::m::t) -> is_adjacent bd h m
+        | _ -> true
 
 
     let init_board () =

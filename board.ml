@@ -62,32 +62,68 @@ struct
         | _::[] -> true
         | h::m::t -> if (adj_search bd.adjacents h m) then (is_adjacent bd (m::t))  
                      else false
-
+    
     
     (** Should inspect the order value for a province and test it's valid **)
     let valid_order (bd : board) (fc : force) : bool =
         match !(fc.command) with
         | Attack(move_path) -> is_adjacent bd move_path 
         | Support(other_force) -> is_adjacent bd [!(fc.occupies); !(other_force.occupies)]
-        | Convoy(other_force, move_path) -> (is_adjacent bd [!(fc.occupies); !(other_force.occupies)]) &&
-                                            (is_adjacent bd ((!(fc.occupies))::move_path))
+        | Convoy(other_force, move_path) -> 
+                (is_adjacent bd [!(fc.occupies); !(other_force.occupies)]) &&
+                (is_adjacent bd ((!(fc.occupies))::move_path))
         | _ -> true
     
-    (** Tests whether any country has >= 18 supply centers **)
-    let is_won (bd : board) : country option=
+    let average a b =
+        let sum = a +. b in
+        sum
+    
+    let is_won (bd : board) : country option =
         let ec = ref 0 in
-        let fc = ref 0 in
-        let gc = ref 0 in
-        let rc = ref 0 in
-        let ac = ref 0 in
-        let tc = ref 0 in
-        let ic = ref 0 in
+        let helper x =
+            x := x + 1;
+            Some England
+        in
+        helper ec
+
+    let is_won (bd : board) : country option =
+        (** Mutable array to hold the # of SC's
+         * E; F; G; R; AH; T; I **)
+        let num_centers = [| 0; 0; 0; 0; 0; 0; 0 |] in
+        (** Increment the respective array value based on
+         * which country holds the supply center.
+         * Needs to also check that province is SC **)
+        let sc_incr prov arr =
+            if prov.supply then (
+                let p = !(prov.held_by) in
+                if p = England then arr.(0) <- (arr.(0) + 1)
+                else if p = France then arr.(1) <- (arr.(1) + 1)
+                else if p = Germany then arr.(2) <- (arr.(2) + 1)
+                else if p = Russia then arr.(3) <- (arr.(3) + 1)
+                else if p = AH then arr.(4) <- (arr.(4) + 1)
+                else if p = Turkey then arr.(5) <- (arr.(5) + 1)
+                else if p = Italy then arr.(6) <- (arr.(6) + 1)
+            )
+            else ()
+        in
+        List.iter (sc_incr prov num_centers) bd.provs;
+
+
+    (** Tests whether any country has >= 18 supply centers 
+    let is_won (bd : board) : country option =
+        let ec = ref 0 in;;
+        let fc = ref 0 in;;
+        let gc = ref 0 in;;
+        let rc = ref 0 in;;
+        let ac = ref 0 in;;
+        let tc = ref 0 in;;
+        let ic = ref 0 in;;
         (** Will traverse bd.provs, adding to number of SC's held **)
         let rec helper (lst : province list) : unit=
             match lst with
             | [] -> ()
             | h::t ->
-                    if !(h.held_by) = England then ();
+                    if !(h.held_by) = England then ();;
                     else if !(h.held_by) = France then ();
                     else if x = Germany then gc := gc + 1; helper t
                     else if x = Russia then rc := rc + 1; helper t
@@ -96,8 +132,7 @@ struct
                     else if x = Italy then ic := ic + 1; helper t
                     else (); helper t
             
-        in
-        helper bd.provs;
+        in helper bd.provs;
         if ec > 17 then Some England
         else if fc > 17 then Some France
         else if gc > 17 then Some Germany
@@ -106,7 +141,7 @@ struct
         else if tc > 17 then Some Turkey
         else if ic > 17 then Some Italy
         else None
-
+**)
 
     module ToString = 
     struct

@@ -6,4 +6,3 @@
 
 2. Work on is_won function in board.ml
     - Needs to check whether board is in winning configuration
-        ~ Getting some weird error

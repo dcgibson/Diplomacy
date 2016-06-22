@@ -63,33 +63,7 @@ struct
         | h::m::t -> if (adj_search bd.adjacents h m) then (is_adjacent bd (m::t))  
                      else false
 
-    (** Generate force and add it to the board.
-     * Also changes province occupied status. **)
-    let gen_force (prov : province) ?(fleet = false) (bd : board) =
-        match prov.supply with
-        | false -> raise NotSupplyCenter
-        | true -> (
-            let num = string_of_int (ctr ()) in
-            let id = "force" ^ num in
-            if (prov.climate = Coastal || fleet = true)
-            then (Hashtbl.add bd.forces id {name = Fleet;
-                                       belongs_to = prov.homeland;
-                                       occupies = ref prov;
-                                       hold_strength = ref 1;
-                                       attack_strength = ref 0;
-                                       command = ref Void;
-                                       command_state = ref Unresolved;
-            }; prov.occupied := true)
-            else (Hashtbl.add bd.forces id {name = Army;
-                                       belongs_to = prov.homeland;
-                                       occupies = ref prov;
-                                       hold_strength = ref 1;
-                                       attack_strength = ref 0;
-                                       command = ref Void;
-                                       command_state = ref Unresolved;
-            }; prov.occupied := true)
-        )
-
+    
     (** Should inspect the order value for a province and test it's valid **)
     let valid_order (bd : board) (fc : force) : bool =
         match !(fc.command) with
@@ -98,6 +72,41 @@ struct
         | Convoy(other_force, move_path) -> (is_adjacent bd [!(fc.occupies); !(other_force.occupies)]) &&
                                             (is_adjacent bd ((!(fc.occupies))::move_path))
         | _ -> true
+    
+    (** Tests whether any country has >= 18 supply centers **)
+    let is_won (bd : board) : country option=
+        let ec = ref 0 in
+        let fc = ref 0 in
+        let gc = ref 0 in
+        let rc = ref 0 in
+        let ac = ref 0 in
+        let tc = ref 0 in
+        let ic = ref 0 in
+        (** Will traverse bd.provs, adding to number of SC's held **)
+        let rec helper (lst : province list) : unit=
+            match lst with
+            | [] -> ()
+            | h::t ->
+                    if !(h.held_by) = England then ();
+                    else if !(h.held_by) = France then ();
+                    else if x = Germany then gc := gc + 1; helper t
+                    else if x = Russia then rc := rc + 1; helper t
+                    else if x = AH then ac := ac + 1; helper t
+                    else if x = Turkey then tc := tc + 1; helper t
+                    else if x = Italy then ic := ic + 1; helper t
+                    else (); helper t
+            
+        in
+        helper bd.provs;
+        if ec > 17 then Some England
+        else if fc > 17 then Some France
+        else if gc > 17 then Some Germany
+        else if rc > 17 then Some Russia
+        else if ac > 17 then Some AH
+        else if tc > 17 then Some Turkey
+        else if ic > 17 then Some Italy
+        else None
+
 
     module ToString = 
     struct
@@ -152,23 +161,3 @@ struct
 end;;
 
 
-
-   (** 
-    let init_board () =
-        {provs = [cly; edi; yor; lon; wal; lvp;];
-         forces = Hashtbl.create 30;
-         adjacents = [(cly, edi); (cly, yor); (edi, yor); (lon, yor);
-                      (lon, wal); (wal, yor); (lvp, wal); (cly, lvp);];
-        }
-
-    let init_forces (bd : board) =
-        let rec helper lst =
-            match lst with
-            | [] -> ()
-            | h::t -> if (h = edi || h = lon)
-                        then gen_force h ~fleet:true bd; helper t
-                      else if (h = lvp)
-                        then gen_force h ~fleet:false bd; helper t
-                      else helper t
-        in
-        helper bd.provs **)

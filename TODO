@@ -4,10 +4,6 @@
     - Inform player of the country they are
     - Ask for starting moves
 
-2. Continue work on init_board
-    - Add more provinces
-    - Need to have alternative method of storing province initializations,
-      away from module.
-        ~ Maybe another file?
-        ~ can't initialize before type declaration
-
+2. Work on is_won function in board.ml
+    - Needs to check whether board is in winning configuration
+        ~ Getting some weird error

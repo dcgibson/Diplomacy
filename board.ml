@@ -79,14 +79,6 @@ struct
         sum
     
     let is_won (bd : board) : country option =
-        let ec = ref 0 in
-        let helper x =
-            x := x + 1;
-            Some England
-        in
-        helper ec
-
-    let is_won (bd : board) : country option =
         (** Mutable array to hold the # of SC's
          * E; F; G; R; AH; T; I **)
         let num_centers = [| 0; 0; 0; 0; 0; 0; 0 |] in

@@ -48,7 +48,7 @@ let lvp = {
     climate = Coastal;
     held_by = ref England;
     occupied = ref false;
-}
+};;
 
 
 
@@ -77,7 +77,7 @@ let gen_force (prov : province) ?(fleet = false) (bd : board) =
                                    command = ref Void;
                                    command_state = ref Unresolved;
         }; prov.occupied := true)
-    )
+    );;
 
 
 let init_board () = 
@@ -85,17 +85,10 @@ let init_board () =
      forces = Hashtbl.create 30;
      adjacents = [(cly, edi); (cly, yor); (edi, yor); (lon, yor);
                   (lon, wal); (wal, yor); (lvp, wal); (cly, lvp);];
-    }
+    };;
 
-(** Although Merlin gives an error, it doesn't show up in compiling **)
+(** Currently only initialized armies, not fleets **)
 let init_forces (bd : board) =
-    let rec helper lst =
-        match lst with
-        | [] -> ()
-        | h::t -> if (h = edi) || (h = lon)
-                  then gen_force h ~fleet:true bd; helper t;
-                  else if (h = lvp)
-                  then gen_force h ~fleet:false bd; helper t;
-                  else helper t;
-    in
-    helper bd.provs
+    (** Filter all the provinces that are supply centers **)
+    let lst = List.filter (fun x -> x.supply = true) bd.provs in
+    List.iter (fun x -> gen_force x ~fleet:false bd) lst

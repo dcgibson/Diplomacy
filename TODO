@@ -5,4 +5,4 @@
     - Ask for starting moves
 
 2. Work on is_won function in board.ml
-    - Needs to check whether board is in winning configuration
+    - need to return COUNTRY which has 18 SC's

@@ -98,7 +98,7 @@ struct
             )
             else ()
         in
-        List.iter (sc_incr prov num_centers) bd.provs;
+        List.iter (fun x -> sc_incr x num_centers) bd.provs;
 
 
     (** Tests whether any country has >= 18 supply centers 

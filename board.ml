@@ -29,6 +29,9 @@ struct
     type board = {provs : province list;
                   forces : (string, force) Hashtbl.t;
                   adjacents : (province * province) list;}
+
+    (** Have yet to do anything with type player.
+     * Possibly important in replacing is_won. **)
     type player = {name : country;
                   supply_centers : (province ref) list;
                   force_list : (force ref) list;}

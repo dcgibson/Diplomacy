@@ -1,0 +1,19 @@
+### Starting build.
+# Target: engine.ml.depends, tags: { extension:ml, file:engine.ml, ocaml, ocamldep, quiet }
+/usr/bin/ocamldep -modules engine.ml > engine.ml.depends
+# Target: board.ml.depends, tags: { extension:ml, file:board.ml, ocaml, ocamldep, quiet }
+/usr/bin/ocamldep -modules board.ml > board.ml.depends # cached
+# Target: board.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:board.cmo, file:board.ml, implem, ocaml, quiet }
+/usr/bin/ocamlc -c -o board.cmo board.ml # cached
+# Target: init.ml.depends, tags: { extension:ml, file:init.ml, ocaml, ocamldep, quiet }
+/usr/bin/ocamldep -modules init.ml > init.ml.depends # cached
+# Target: init.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:init.cmo, file:init.ml, implem, ocaml, quiet }
+/usr/bin/ocamlc -c -o init.cmo init.ml # cached
+# Target: engine.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:engine.cmo, file:engine.ml, implem, ocaml, quiet }
+/usr/bin/ocamlc -c -o engine.cmo engine.ml
++ /usr/bin/ocamlc -c -o engine.cmo engine.ml
+File "engine.ml", line 9, characters 0-41:
+Error: This expression has type unit but an expression was expected of type
+         string
+Command exited with code 2.
+# Compilation unsuccessful.

@@ -74,10 +74,11 @@ struct
                 (is_adjacent bd ((!(fc.occupies))::move_path))
         | _ -> true
     
-    let average a b =
-        let sum = a +. b in
-        sum
     
+    (**
+    (** This whole function may be unnecessary, if we compute the sum of each
+     * country's SC at the end of the year, we test within that function, and if
+     * SC >= 18, call the function to end the game. **)
     let is_won (bd : board) : country option =
         (** Mutable array to hold the # of SC's
          * E; F; G; R; AH; T; I **)
@@ -99,41 +100,23 @@ struct
             else ()
         in
         List.iter (fun x -> sc_incr x num_centers) bd.provs;
+        (** Traverse num_centers, building bool list of winning countries.
+         * Maybe use Array.fold_left? **)
+        let win_gen (lst : bool list) (num : int) : bool list =
+            (num >= 18) :: lst
+        in
 
+        let win_lst = Array.fold_left win_gen [] num_centers in
+        let win_arr = Array.of_list win_lst in
 
-    (** Tests whether any country has >= 18 supply centers 
-    let is_won (bd : board) : country option =
-        let ec = ref 0 in;;
-        let fc = ref 0 in;;
-        let gc = ref 0 in;;
-        let rc = ref 0 in;;
-        let ac = ref 0 in;;
-        let tc = ref 0 in;;
-        let ic = ref 0 in;;
-        (** Will traverse bd.provs, adding to number of SC's held **)
-        let rec helper (lst : province list) : unit=
-            match lst with
-            | [] -> ()
-            | h::t ->
-                    if !(h.held_by) = England then ();;
-                    else if !(h.held_by) = France then ();
-                    else if x = Germany then gc := gc + 1; helper t
-                    else if x = Russia then rc := rc + 1; helper t
-                    else if x = AH then ac := ac + 1; helper t
-                    else if x = Turkey then tc := tc + 1; helper t
-                    else if x = Italy then ic := ic + 1; helper t
-                    else (); helper t
-            
-        in helper bd.provs;
-        if ec > 17 then Some England
-        else if fc > 17 then Some France
-        else if gc > 17 then Some Germany
-        else if rc > 17 then Some Russia
-        else if ac > 17 then Some AH
-        else if tc > 17 then Some Turkey
-        else if ic > 17 then Some Italy
-        else None
-**)
+        if win_arr.(0) then Some England
+        else if win_arr.(1) then Some France
+        else if win_arr.(2) then Some Germany
+        else if win_arr.(3) then Some Russia
+        else if win_arr.(4) then Some AH
+        else if win_arr.(5) then Some Turkey
+        else if win_arr.(6) then Some Italy
+        **)
 
     module ToString = 
     struct

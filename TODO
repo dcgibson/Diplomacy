@@ -6,3 +6,4 @@
 
 2. Work on is_won function in board.ml
     - need to return COUNTRY which has 18 SC's
+    - check comments above function, possibly no need to implement

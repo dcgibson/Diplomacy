@@ -1,0 +1,6 @@
+# structure of my awesome project
+# (shamelessly copying from github lol)
+
+S src
+
+B _build/*

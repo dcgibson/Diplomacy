@@ -11,9 +11,12 @@
 /usr/bin/ocamlc -c -o init.cmo init.ml # cached
 # Target: engine.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:engine.cmo, file:engine.ml, implem, ocaml, quiet }
 /usr/bin/ocamlc -c -o engine.cmo engine.ml
-+ /usr/bin/ocamlc -c -o engine.cmo engine.ml
-File "engine.ml", line 9, characters 0-41:
-Error: This expression has type unit but an expression was expected of type
-         string
-Command exited with code 2.
-# Compilation unsuccessful.
+# Target: board.cmx, tags: { compile, extension:cmx, extension:ml, file:board.cmx, file:board.ml, implem, native, ocaml, quiet }
+/usr/bin/ocamlopt -c -o board.cmx board.ml # cached
+# Target: init.cmx, tags: { compile, extension:cmx, extension:ml, file:init.cmx, file:init.ml, implem, native, ocaml, quiet }
+/usr/bin/ocamlopt -c -o init.cmx init.ml # cached
+# Target: engine.cmx, tags: { compile, extension:cmx, extension:ml, file:engine.cmx, file:engine.ml, implem, native, ocaml, quiet }
+/usr/bin/ocamlopt -c -o engine.cmx engine.ml
+# Target: engine.native, tags: { dont_link_with, extension:native, file:engine.native, link, native, ocaml, program, quiet }
+/usr/bin/ocamlopt board.cmx init.cmx engine.cmx -o engine.native
+# Compilation successful.

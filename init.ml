@@ -87,7 +87,9 @@ let init_board () =
                   (lon, wal); (wal, yor); (lvp, wal); (cly, lvp);];
     };;
 
-(** Currently only initialized armies, not fleets **)
+(** Currently only initialized armies, not fleets.
+ * TODO:
+     * initialize fleets where appropriate **)
 let init_forces (bd : board) =
     (** Filter all the provinces that are supply centers **)
     let lst = List.filter (fun x -> x.supply = true) bd.provs in

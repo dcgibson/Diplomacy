@@ -1,22 +1,32 @@
 ### Starting build.
 # Target: engine.ml.depends, tags: { extension:ml, file:engine.ml, ocaml, ocamldep, quiet }
-/usr/bin/ocamldep -modules engine.ml > engine.ml.depends
+/home/dgibson/.opam/4.02.1/bin/ocamldep.opt -modules engine.ml > engine.ml.depends
 # Target: board.ml.depends, tags: { extension:ml, file:board.ml, ocaml, ocamldep, quiet }
-/usr/bin/ocamldep -modules board.ml > board.ml.depends # cached
+/home/dgibson/.opam/4.02.1/bin/ocamldep.opt -modules board.ml > board.ml.depends # cached
 # Target: board.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:board.cmo, file:board.ml, implem, ocaml, quiet }
-/usr/bin/ocamlc -c -o board.cmo board.ml # cached
+/home/dgibson/.opam/4.02.1/bin/ocamlc.opt -c -o board.cmo board.ml # cached
 # Target: init.ml.depends, tags: { extension:ml, file:init.ml, ocaml, ocamldep, quiet }
-/usr/bin/ocamldep -modules init.ml > init.ml.depends # cached
+/home/dgibson/.opam/4.02.1/bin/ocamldep.opt -modules init.ml > init.ml.depends # cached
 # Target: init.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:init.cmo, file:init.ml, implem, ocaml, quiet }
-/usr/bin/ocamlc -c -o init.cmo init.ml # cached
+/home/dgibson/.opam/4.02.1/bin/ocamlc.opt -c -o init.cmo init.ml # cached
 # Target: engine.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:engine.cmo, file:engine.ml, implem, ocaml, quiet }
-/usr/bin/ocamlc -c -o engine.cmo engine.ml
+/home/dgibson/.opam/4.02.1/bin/ocamlc.opt -c -o engine.cmo engine.ml
++ /home/dgibson/.opam/4.02.1/bin/ocamlc.opt -c -o engine.cmo engine.ml
+File "engine.ml", line 33, characters 4-87:
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a value that is not matched:
+""
 # Target: board.cmx, tags: { compile, extension:cmx, extension:ml, file:board.cmx, file:board.ml, implem, native, ocaml, quiet }
-/usr/bin/ocamlopt -c -o board.cmx board.ml # cached
+/home/dgibson/.opam/4.02.1/bin/ocamlopt.opt -c -o board.cmx board.ml # cached
 # Target: init.cmx, tags: { compile, extension:cmx, extension:ml, file:init.cmx, file:init.ml, implem, native, ocaml, quiet }
-/usr/bin/ocamlopt -c -o init.cmx init.ml # cached
+/home/dgibson/.opam/4.02.1/bin/ocamlopt.opt -c -o init.cmx init.ml # cached
 # Target: engine.cmx, tags: { compile, extension:cmx, extension:ml, file:engine.cmx, file:engine.ml, implem, native, ocaml, quiet }
-/usr/bin/ocamlopt -c -o engine.cmx engine.ml
+/home/dgibson/.opam/4.02.1/bin/ocamlopt.opt -c -o engine.cmx engine.ml
++ /home/dgibson/.opam/4.02.1/bin/ocamlopt.opt -c -o engine.cmx engine.ml
+File "engine.ml", line 33, characters 4-87:
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a value that is not matched:
+""
 # Target: engine.native, tags: { dont_link_with, extension:native, file:engine.native, link, native, ocaml, program, quiet }
-/usr/bin/ocamlopt board.cmx init.cmx engine.cmx -o engine.native
+/home/dgibson/.opam/4.02.1/bin/ocamlopt.opt board.cmx init.cmx engine.cmx -o engine.native
 # Compilation successful.

@@ -301,6 +301,322 @@ let vie = {
 }
 
 (* Italy *)
+let ven = {
+    name = "VEN";
+    supply = true;
+    homeland = Italy;
+    climate = Coastal;
+    held_by = ref Italy;
+    occupied = ref false;
+}
+let apu = {
+    name = "APU";
+    supply = false;
+    homeland = Italy;
+    climate = Coastal;
+    held_by = ref Italy;
+    occupied = ref false;
+}
+let nap = {
+    name = "NAP";
+    supply = true;
+    homeland = Italy;
+    climate = Coastal;
+    held_by = ref Italy;
+    occupied = ref false;
+}
+let rom = {
+    name = "ROM";
+    supply = true;
+    homeland = Italy;
+    climate = Coastal;
+    held_by = ref Italy;
+    occupied = ref false;
+}
+let tus = {
+    name = "TUS";
+    supply = false;
+    homeland = Italy;
+    climate = Coastal;
+    held_by = ref Italy;
+    occupied = ref false;
+}
+let pie = {
+    name = "PIE";
+    supply = false;
+    homeland = Italy;
+    climate = Coastal;
+    held_by = ref Italy;
+    occupied = ref false;
+}
+
+(* NEUTRALS *)
+let por = {
+    name = "POR";
+    supply = true;
+    homeland = Neutral;
+    climate = Coastal;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let spa = {
+    name = "SPA";
+    supply = true;
+    homeland = Neutral;
+    climate = Coastal;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let bel = {
+    name = "BEL";
+    supply = true;
+    homeland = Neutral;
+    climate = Coastal;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let hol = {
+    name = "HOL";
+    supply = true;
+    homeland = Neutral;
+    climate = Coastal;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let den = {
+    name = "DEN";
+    supply = true;
+    homeland = Neutral;
+    climate = Coastal;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let swe = {
+    name = "SWE";
+    supply = true;
+    homeland = Neutral;
+    climate = Coastal;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let nor = {
+    name = "NOR";
+    supply = true;
+    homeland = Neutral;
+    climate = Coastal;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let rum = {
+    name = "RUM";
+    supply = true;
+    homeland = Neutral;
+    climate = Coastal;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let bul = {
+    name = "BUL";
+    supply = true;
+    homeland = Neutral;
+    climate = Coastal;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let gre = {
+    name = "GRE";
+    supply = true;
+    homeland = Neutral;
+    climate = Coastal;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let alb = {
+    name = "ALB";
+    supply = false;
+    homeland = Neutral;
+    climate = Coastal;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let ser = {
+    name = "SER";
+    supply = true;
+    homeland = Neutral;
+    climate = Inland;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let tun = {
+    name = "TUN";
+    supply = true;
+    homeland = Neutral;
+    climate = Coastal;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let nor = {
+    name = "NOR";
+    supply = true;
+    homeland = Neutral;
+    climate = Coastal;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+
+(* Oceans *)
+let barents = {
+    name = "BARENTS";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let norwegian = {
+    name = "NORWEGIAN";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let north = {
+    name = "NORTH";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let helgoland = {
+    name = "HELGOLAND";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let skagerrak = {
+    name = "SKAGERRAK";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let baltic = {
+    name = "BALTIC";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let bothnia = {
+    name = "BOTHNIA";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let nao = {
+    name = "NORTH ATLANTIC";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let irish = {
+    name = "IRISH";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let english = {
+    name = "ENGLISH";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let mao = {
+    name = "MID ATLANTIC";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let wmd = {
+    name = "WEST MED";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let lyon = {
+    name = "LYON";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let tyrrhenian = {
+    name = "TYRRHENIAN";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let ionian = {
+    name = "IONIAN";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let aegean = {
+    name = "AEGEAN";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let emd = {
+    name = "EAST MED";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let adriatic = {
+    name = "ADRIATIC";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
+let black = {
+    name = "BLACK";
+    supply = false;
+    homeland = Neutral;
+    climate = Ocean;
+    held_by = ref Neutral;
+    occupied = ref false;
+}
 
 
 

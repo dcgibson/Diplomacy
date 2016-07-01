@@ -399,8 +399,8 @@ let swe = {
     held_by = ref Neutral;
     occupied = ref false;
 }
-let nor = {
-    name = "NOR";
+let now = {
+    name = "NOw";
     supply = true;
     homeland = Neutral;
     climate = Coastal;
@@ -651,10 +651,94 @@ let gen_force (prov : province) ?(fleet = false) (bd : board) =
 
 
 let init_board () = 
-    {provs = [cly; edi; yor; lon; wal; lvp;];
-     forces = Hashtbl.create 30;
-     adjacents = [(cly, edi); (cly, yor); (edi, yor); (lon, yor);
-                  (lon, wal); (wal, yor); (lvp, wal); (cly, lvp);];
+    { provs = [
+        (* England *) 
+        cly; edi; yor; lon; wal; lvp;
+        (* France *)
+        bre; pic; bur; mar; gas; par;
+        (* Germany *)
+        kie; ber; pru; sil; mun; ruh;
+        (* Russia *)
+        fin; stp; mos; sev; ukr; war; lvn;
+        (* Turkey *)
+        arm; syr; smy; con; ank;
+        (* Austria-Hungary *)
+        tyr; boh; gal; bud; tri; vie;
+        (* Italy *)
+        ven; apu; nap; rom ; tus; pie;
+        (* Neutrals *)
+        por; spa; bel; hol; den; swe; now; rum; bul; gre; alb; ser; tun; nor;
+        (* Oceans *)
+        barents; norwegian; north; helgoland; skagerrak; baltic; bothnia; nao;
+        irish; english; mao; wmd; lyon; tyrrhenian; ionian; aegean; emd;
+        adriatic; black; 
+        ];
+      (* 56 'cause why not, #noshitsgiven *)
+      forces = Hashtbl.create 56;
+      (* Don't need mirrored tuples *)
+      adjacents = [
+          (* England *) 
+          (cly, edi); (cly, yor); (cly, lvp); (cly, nao); (cly, norwegian);
+          (edi, yor); (edi, norwegian); (edi, north);
+          (lon, yor); (lon, north); (lon, english); (lon, wal);
+          (wal, yor); (wal, lvp); (wal, english); (wal, irish); 
+          (lvp, irish); (lvp, nao);
+          (* France *)
+          (bre, pic); (bre, par); (bre, gas); (bre, mao); (bre, english);
+          (pic, bel); (pic, bur); (pic, par); (pic, english);
+          (bur, bel); (bur, ruh); (bur, mun); (bur, mar); (bur, gas); (bur, par);
+          (mar, pie); (mar, lyon); (mar, spa); (mar, gas);
+          (gas, spa); (gas, mao); (gas, par);
+          (* Germany *)
+          (kie, den); (kie, baltic); (kie, ber); (kie, mun); (kie, ruh); (kie, hol); (kie, helgoland);
+          (ber, baltic); (ber, pru); (ber, sil); (ber, mun);
+          (pru, baltic); (pru, lvn); (pru, war); (pru, sil);
+          (sil, war); (sil, gal); (sil, boh); (sil, mun);
+          (mun, boh); (mun, tyr); (mun, ruh);
+          (ruh, bel); (ruh, hol);
+          (* Russia *)
+          (fin, now); (fin, stp); (fin, bothnia); (fin, swe);
+          (stp, now); (stp, barents); (stp, mos); (stp, lvn); (stp, bothnia);
+          (mos, sev); (mos, ukr); (mos, war); (mos, lvn);
+          (sev, arm); (sev, black); (sev, rum); (sev, ukr);
+          (ukr, rum); (ukr, gal); (ukr, war);
+          (war, gal); (war, lvn);
+          (lvn, baltic); (lvn, bothnia);
+          (* Turkey *)
+          (arm, black); (arm, syr); (arm, smy); (arm, ank);
+          (syr, smy); (syr, emd);
+          (smy, emd); (smy, aegean); (smy, con); (smy, ank);
+          (con, aegean); (con, bul); (con, black); (con, ank);
+          (ank, black);
+          (* Austria-Hungary *)
+          (tyr, boh); (tyr, vie); (tyr, tri); (tyr, ven); (tyr, pie);
+          (boh, gal); (boh, vie);
+          (gal, rum); (gal, bud); (gal, vie);
+          (bud, rum); (bud, ser); (bud, tri); (bud, vie);
+          (tri, ser); (tri, alb); (tri, adriatic); (tri, ven); (tri, vie);
+          (* Italy *)
+          (ven, adriatic); (ven, apu); (ven, rom); (ven, tus); (ven, pie);
+          (apu, adriatic); (apu, ionian); (apu, nap); (apu, rom);
+          (nap, ionian); (nap, tyrrhenian); (nap, rom);
+          (rom, tyrrhenian); (rom, tus);
+          (tus, tyrrhenian); (tus, lyon); (tus, pie);
+          (pie, lyon);
+          (* Neutrals *)
+          (por, mao); (por, spa);
+          (spa, mao); (spa, wmd); (spa, lyon);
+          (bel, hol); (bel, english); (bel, north);
+          (hol, north); (hol, helgoland);
+          (den, helgoland); (den, north); (den, skagerrak); (den, swe); (den, baltic);
+          (swe, skagerrak); (swe, now); (swe, bothnia); (swe, baltic); 
+          (now, skagerrak); (now, north); (now, norwegian); (now, barents);
+          (rum, black); (rum, bul); (rum, ser);
+          (bul, black); (bul, aegean); (bul, gre); (bul, ser);
+          (gre, aegean); (gre, ionian); (gre, alb); (gre, ser);
+          (alb, ionian); (alb, adriatic); (alb, ser);
+          (tun, tyrrhenian); (tun, ionian); (tun, nor); (tun, wmd);
+          (nor, wmd); (nor, mao);
+    
+    ];
     };;
 
 (** Currently only initialized armies, not fleets.

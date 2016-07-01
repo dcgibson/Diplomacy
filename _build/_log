@@ -12,7 +12,7 @@
 # Target: engine.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:engine.cmo, file:engine.ml, implem, ocaml, quiet }
 /home/dgibson/.opam/4.02.1/bin/ocamlc.opt -c -o engine.cmo engine.ml
 + /home/dgibson/.opam/4.02.1/bin/ocamlc.opt -c -o engine.cmo engine.ml
-File "engine.ml", line 33, characters 4-87:
+File "engine.ml", line 51, characters 4-87:
 Warning 8: this pattern-matching is not exhaustive.
 Here is an example of a value that is not matched:
 ""
@@ -23,7 +23,7 @@ Here is an example of a value that is not matched:
 # Target: engine.cmx, tags: { compile, extension:cmx, extension:ml, file:engine.cmx, file:engine.ml, implem, native, ocaml, quiet }
 /home/dgibson/.opam/4.02.1/bin/ocamlopt.opt -c -o engine.cmx engine.ml
 + /home/dgibson/.opam/4.02.1/bin/ocamlopt.opt -c -o engine.cmx engine.ml
-File "engine.ml", line 33, characters 4-87:
+File "engine.ml", line 51, characters 4-87:
 Warning 8: this pattern-matching is not exhaustive.
 Here is an example of a value that is not matched:
 ""

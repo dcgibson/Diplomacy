@@ -684,9 +684,74 @@ let init_board () =
           (wal, yor); (wal, lvp); (wal, english); (wal, irish); 
           (lvp, irish); (lvp, nao);
           (* France *)
+          (bre, pic); (bre, par); (bre, gas); (bre, mao); (bre, english);
+          (pic, bel); (pic, bur); (pic, par); (pic, english);
+          (bur, bel); (bur, ruh); (bur, mun); (bur, mar); (bur, gas); (bur, par);
+          (mar, pie); (mar, lyon); (mar, spa); (mar, gas);
+          (gas, spa); (gas, mao); (gas, par);
+          (* Germany *)
+          (kie, den); (kie, baltic); (kie, ber); (kie, mun); (kie, ruh); (kie, hol); (kie, helgoland);
+          (ber, baltic); (ber, pru); (ber, sil); (ber, mun);
+          (pru, baltic); (pru, lvn); (pru, war); (pru, sil);
+          (sil, war); (sil, gal); (sil, boh); (sil, mun);
+          (mun, boh); (mun, tyr); (mun, ruh);
+          (ruh, bel); (ruh, hol);
+          (* Russia *)
+          (fin, now); (fin, stp); (fin, bothnia); (fin, swe);
+          (stp, now); (stp, barents); (stp, mos); (stp, lvn); (stp, bothnia);
+          (mos, sev); (mos, ukr); (mos, war); (mos, lvn);
+          (sev, arm); (sev, black); (sev, rum); (sev, ukr);
+          (ukr, rum); (ukr, gal); (ukr, war);
+          (war, gal); (war, lvn);
+          (lvn, baltic); (lvn, bothnia);
+          (* Turkey *)
+          (arm, black); (arm, syr); (arm, smy); (arm, ank);
+          (syr, smy); (syr, emd);
+          (smy, emd); (smy, aegean); (smy, con); (smy, ank);
+          (con, aegean); (con, bul); (con, black); (con, ank);
+          (ank, black);
+          (* Austria-Hungary *)
+          (tyr, boh); (tyr, vie); (tyr, tri); (tyr, ven); (tyr, pie);
+          (boh, gal); (boh, vie);
+          (gal, rum); (gal, bud); (gal, vie);
+          (bud, rum); (bud, ser); (bud, tri); (bud, vie);
+          (tri, ser); (tri, alb); (tri, adriatic); (tri, ven); (tri, vie);
+          (* Italy *)
+          (ven, adriatic); (ven, apu); (ven, rom); (ven, tus); (ven, pie);
+          (apu, adriatic); (apu, ionian); (apu, nap); (apu, rom);
+          (nap, ionian); (nap, tyrrhenian); (nap, rom);
+          (rom, tyrrhenian); (rom, tus);
+          (tus, tyrrhenian); (tus, lyon); (tus, pie);
+          (pie, lyon);
+          (* Neutrals *)
+          (por, mao); (por, spa);
+          (spa, mao); (spa, wmd); (spa, lyon);
+          (bel, hol); (bel, english); (bel, north);
+          (hol, north); (hol, helgoland);
+          (den, helgoland); (den, north); (den, skagerrak); (den, swe); (den, baltic);
+          (swe, skagerrak); (swe, now); (swe, bothnia); (swe, baltic); 
+          (now, skagerrak); (now, north); (now, norwegian); (now, barents);
+          (rum, black); (rum, bul); (rum, ser);
+          (bul, black); (bul, aegean); (bul, gre); (bul, ser);
+          (gre, aegean); (gre, ionian); (gre, alb); (gre, ser);
+          (alb, ionian); (alb, adriatic); (alb, ser);
+          (tun, tyrrhenian); (tun, ionian); (tun, nor); (tun, wmd);
+          (nor, wmd); (nor, mao);
 
-    
-    ];
+          (* Oceans *)
+          (barents, norwegian);
+          (norwegian, north); (norwegian, nao);
+          (north, english); (north, helgoland); (north, skagerrak);
+          (skagerrak, baltic);
+          (baltic, bothnia);
+          (nao, irish); (nao, mao);
+          (irish, mao); (irish, english);
+          (mao, english); (mao, wmd);
+          (wmd, lyon); (wmd, tyrrhenian);
+          (tyrrhenian, lyon); (tyrrhenian, ionian);
+          (ionian, adriatic); (ionian, aegean); (ionian, emd);
+          (aegean, emd); (aegean, black);
+          ];
     };;
 
 (** Currently only initialized armies, not fleets.

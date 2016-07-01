@@ -737,8 +737,21 @@ let init_board () =
           (alb, ionian); (alb, adriatic); (alb, ser);
           (tun, tyrrhenian); (tun, ionian); (tun, nor); (tun, wmd);
           (nor, wmd); (nor, mao);
-    
-    ];
+
+          (* Oceans *)
+          (barents, norwegian);
+          (norwegian, north); (norwegian, nao);
+          (north, english); (north, helgoland); (north, skagerrak);
+          (skagerrak, baltic);
+          (baltic, bothnia);
+          (nao, irish); (nao, mao);
+          (irish, mao); (irish, english);
+          (mao, english); (mao, wmd);
+          (wmd, lyon); (wmd, tyrrhenian);
+          (tyrrhenian, lyon); (tyrrhenian, ionian);
+          (ionian, adriatic); (ionian, aegean); (ionian, emd);
+          (aegean, emd); (aegean, black);
+          ];
     };;
 
 (** Currently only initialized armies, not fleets.

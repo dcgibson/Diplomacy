@@ -50,6 +50,9 @@ let rec game_turn (bd : board) =
     let user_option = read_line () in
     match user_option with
     | "B" -> print_string (string_of_board bd); game_turn bd
+    | _ -> ()
+
+
 
     
 

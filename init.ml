@@ -756,7 +756,7 @@ let init_board =
     };;
 
 (* Given the game board, add the forces to the forces field *)
-let init_forces (bd : board)  =
+let init_forces (bd : board) : board =
     (* Filter all the provinces that are supply centers. *)
     (* Also filters for provinces that aren't neutral. *)
     let lst = List.filter 
@@ -774,6 +774,4 @@ let init_forces (bd : board)  =
     bd
 ;;
 
-let game_board = init_forces init_board in
-print_string (string_of_board game_board)
 

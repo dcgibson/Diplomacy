@@ -25,7 +25,7 @@ let initialize_player () =
     print_string "~Diplomacy!\n";
     
     (* Pass user_country when constructing user player *)
-    let init_country () : country = 
+    let init_country =
         print_string "Choose a country, or type random\n";
         print_string "Choices: England\n";
         let user_country = read_line () in
@@ -39,7 +39,7 @@ let initialize_player () =
         | "Italy" -> Italy
         | _ -> failwith "Not a valid country"
     in
-    init_country () 
+    init_country  
 
 let rec game_turn (bd : board) =
     print_string "Options:\n";
@@ -50,6 +50,14 @@ let rec game_turn (bd : board) =
     let user_option = read_line () in
     match user_option with
     | "B" -> print_string (string_of_board bd); game_turn bd
+    | _ -> ()
+
+let start_game =
+    (* Initialize the starting board, complete with forces *)
+    let game_board = init_forces init_board in
+
+
+
 
     
 

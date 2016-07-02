@@ -1,1 +1,1 @@
-board.ml: Hashtbl
+board.ml: Array Hashtbl List

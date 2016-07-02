@@ -1,14 +1,1 @@
-1. Begin creating game engine?
-    - Initialize board
-    - Print out starting board
-    - Inform player of the country they are
-    - Ask for starting moves
-
-2. Work on is_won function in board.ml
-    - need to return COUNTRY which has 18 SC's
-    - check comments above function, possibly no need to implement
-
-3. Use the player type somehow?
-    - When creating a player in engine?
-
-4. CREATE A SERVER!!
+1. Work on fc_ref_lst function, whatever it's called in board.ml

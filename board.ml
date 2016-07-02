@@ -78,7 +78,7 @@ struct
         | _ -> true
     
     
-    (**
+    
     (** This whole function may be unnecessary, if we compute the sum of each
      * country's SC at the end of the year, we test within that function, and if
      * SC >= 18, call the function to end the game. **)
@@ -88,7 +88,7 @@ struct
         let num_centers = [| 0; 0; 0; 0; 0; 0; 0 |] in
         (** Increment the respective array value based on
          * which country holds the supply center.
-         * Needs to also check that province is SC **)
+         * Also checks that province is SC **)
         let sc_incr prov arr =
             if prov.supply then (
                 let p = !(prov.held_by) in
@@ -108,18 +108,29 @@ struct
         let win_gen (lst : bool list) (num : int) : bool list =
             (num >= 18) :: lst
         in
-
+        (* This is the bool list containing truth values for whether
+         * each country has won *)
         let win_lst = Array.fold_left win_gen [] num_centers in
-        let win_arr = Array.of_list win_lst in
-
-        if win_arr.(0) then Some England
-        else if win_arr.(1) then Some France
-        else if win_arr.(2) then Some Germany
-        else if win_arr.(3) then Some Russia
-        else if win_arr.(4) then Some AH
-        else if win_arr.(5) then Some Turkey
-        else if win_arr.(6) then Some Italy
-        **)
+        (* This function returns an int corresponding to the 
+         * "index" of the winning country, i.e.:
+             * 0 = England
+             * 1 = France
+             * 2 = Germany... *)
+        let rec winner (lst : bool list) (sum : int) =
+            match lst with
+            | [] -> -1
+            | h::t -> if h = true then sum else winner t (sum + 1)
+        in
+        let index = winner win_lst 0 in
+        match index with
+        | 0 -> Some England
+        | 1 -> Some France
+        | 2 -> Some Germany
+        | 3 -> Some Russia
+        | 4 -> Some AH
+        | 5 -> Some Turkey
+        | 6 -> Some Italy
+        | _ -> None
 
     module ToString = 
     struct

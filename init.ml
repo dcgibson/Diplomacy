@@ -1,4 +1,5 @@
 open Board.Board
+open Board.Board.ToString
 
 (** ENGLAND **)
 let cly = {
@@ -630,7 +631,7 @@ let gen_force (prov : province) ?(fleet = false) (bd : board) =
     | true -> (
         let num = string_of_int (ctr ()) in
         let id = "force" ^ num in
-        if (prov.climate = Coastal || fleet = true)
+        if (prov.climate = Coastal && fleet = true)
         then (Hashtbl.add bd.forces id {name = Fleet;
                                    belongs_to = prov.homeland;
                                    occupies = ref prov;
@@ -649,8 +650,8 @@ let gen_force (prov : province) ?(fleet = false) (bd : board) =
         }; prov.occupied := true)
     );;
 
-
-let init_board () = 
+(* Initialzie the game_board provinces *)
+let init_board = 
     { provs = [
         (* England *) 
         cly; edi; yor; lon; wal; lvp;
@@ -754,10 +755,25 @@ let init_board () =
           ];
     };;
 
-(** Currently only initialized armies, not fleets.
- * TODO:
-     * initialize fleets where appropriate **)
-let init_forces (bd : board) =
-    (** Filter all the provinces that are supply centers **)
-    let lst = List.filter (fun x -> x.supply = true) bd.provs in
-    List.iter (fun x -> gen_force x ~fleet:false bd) lst
+(* Given the game board, add the forces to the forces field *)
+let init_forces (bd : board)  =
+    (* Filter all the provinces that are supply centers. *)
+    (* Also filters for provinces that aren't neutral. *)
+    let lst = List.filter 
+                (fun x -> x.supply = true && x.homeland != Neutral) 
+                bd.provs 
+    in
+    List.iter (fun x -> 
+        (* All the provs that need fleets *)
+        if x = edi || x = lon || x = bre || x = kie || x = stp || x = sev ||
+           x = ank || x = tri || x = nap
+        (* Give 'em fleets! *)
+        then gen_force x ~fleet:true bd
+        (* Give 'em armies! *)
+        else gen_force x ~fleet:false bd) lst;
+    bd
+;;
+
+let game_board = init_forces init_board in
+print_string (string_of_board game_board)
+

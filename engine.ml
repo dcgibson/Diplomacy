@@ -52,9 +52,9 @@ let rec game_turn (bd : board) =
     | "B" -> print_string (string_of_board bd); game_turn bd
     | _ -> ()
 
-let start_game =
+(*let start_game =
     (* Initialize the starting board, complete with forces *)
-    let game_board = init_forces init_board in
+    let game_board = init_forces init_board in *)
 
 
 

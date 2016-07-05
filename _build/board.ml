@@ -76,8 +76,15 @@ struct
                 (is_adjacent bd [!(fc.occupies); !(other_force.occupies)]) &&
                 (is_adjacent bd ((!(fc.occupies))::move_path))
         | _ -> true
-    
-    
+   
+
+    (* Given board and country, returns list of refs to the forces the country controls
+     * Not sure if should ref to value or (key, value) of hashtbl *)
+    let fc_ref_list bd ct =
+        (* f key value init *)
+        (* Hashtbl.fold (fun k v acc -> (k, v) :: acc) h [] 
+         * Just an example of fold, creates a list of (key, value) tuples *)
+        Hashtbl.fold (fun k v acc -> if v.belongs_to == ct then (ref v)::acc else acc) bd.forces []
     
     (** This whole function may be unnecessary, if we compute the sum of each
      * country's SC at the end of the year, we test within that function, and if

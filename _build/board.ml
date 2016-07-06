@@ -77,18 +77,30 @@ struct
                 (is_adjacent bd ((!(fc.occupies))::move_path))
         | _ -> true
    
+    (* Given board and country, returns list of refs to sc's.
+     * Look at player type, does it need to be list of refs to provinces? *)
+    let sc_ref_list bd ct =
+        List.fold_left
+            (fun acc x ->
+                if (x.supply = true) && (!(x.held_by) = ct)
+                then (ref x) :: acc
+                else acc)
+            []
+            bd.provs
 
     (* Given board and country, returns list of refs to the forces the country controls
      * Not sure if should ref to value or (key, value) of hashtbl *)
     let fc_ref_list bd ct =
-        (* f key value init *)
-        (* Hashtbl.fold (fun k v acc -> (k, v) :: acc) h [] 
-         * Just an example of fold, creates a list of (key, value) tuples *)
-        Hashtbl.fold (fun k v acc -> if v.belongs_to == ct then (ref v)::acc else acc) bd.forces []
-    
-    (** This whole function may be unnecessary, if we compute the sum of each
+        Hashtbl.fold 
+            (fun k v acc -> 
+                if v.belongs_to == ct 
+                then (ref v)::acc else acc)
+            bd.forces 
+            []
+
+    (* This whole function may be unnecessary, if we compute the sum of each
      * country's SC at the end of the year, we test within that function, and if
-     * SC >= 18, call the function to end the game. **)
+     * SC >= 18, call the function to end the game. *)
     let is_won (bd : board) : country option =
         (** Mutable array to hold the # of SC's
          * E; F; G; R; AH; T; I **)
@@ -138,6 +150,7 @@ struct
         | 5 -> Some Turkey
         | 6 -> Some Italy
         | _ -> None
+
 
     module ToString = 
     struct

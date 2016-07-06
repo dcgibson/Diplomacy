@@ -1,0 +1,10 @@
+1. Maybe add some game_state types in board.ml
+    ~ type game_state = {
+        players : player list;
+        bd : board;
+        } 
+
+    Eh, maybe not
+
+2. Does player type need to have list of REFS to provinces, or
+   should it just be a list of provinces

@@ -21,11 +21,11 @@ open Init;;
 (* This will just return the country that the player chose.
  * Later we'll need to initialize the other players, who
  * the AI program will be acting upon. *)
-let initialize_player () =
+let initialize_player bd =
     print_string "~Diplomacy!\n";
     
     (* Pass user_country when constructing user player *)
-    let init_country =
+    let init_country () =
         print_string "Choose a country, or type random\n";
         print_string "Choices: England\n";
         let user_country = read_line () in
@@ -39,7 +39,11 @@ let initialize_player () =
         | "Italy" -> Italy
         | _ -> failwith "Not a valid country"
     in
-    init_country  
+    let user_country = init_country () in
+    {name = user_country;
+     supply_centers = sc_ref_list bd user_country;
+     force_list = fc_ref_list bd user_country;}
+
 
 let rec game_turn (bd : board) =
     print_string "Options:\n";
@@ -51,10 +55,11 @@ let rec game_turn (bd : board) =
     match user_option with
     | "B" -> print_string (string_of_board bd); game_turn bd
     | _ -> ()
+(*
+let start_game =
+    (* Initialize the starting board, complete with forces 
+    let game_board = init_forces init_board in *) *)
 
-(*let start_game =
-    (* Initialize the starting board, complete with forces *)
-    let game_board = init_forces init_board in *)
 
 
 

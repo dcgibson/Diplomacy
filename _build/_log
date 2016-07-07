@@ -1,22 +1,16 @@
 ### Starting build.
-# Target: engine.ml.depends, tags: { extension:ml, file:engine.ml, ocaml, ocamldep, quiet }
-/home/dgibson/.opam/4.02.1/bin/ocamldep.opt -modules engine.ml > engine.ml.depends
+# Target: brain.ml.depends, tags: { extension:ml, file:brain.ml, ocaml, ocamldep, quiet }
+/home/dgibson/.opam/4.02.1/bin/ocamldep.opt -modules brain.ml > brain.ml.depends
 # Target: board.ml.depends, tags: { extension:ml, file:board.ml, ocaml, ocamldep, quiet }
 /home/dgibson/.opam/4.02.1/bin/ocamldep.opt -modules board.ml > board.ml.depends # cached
 # Target: board.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:board.cmo, file:board.ml, implem, ocaml, quiet }
 /home/dgibson/.opam/4.02.1/bin/ocamlc.opt -c -o board.cmo board.ml # cached
-# Target: init.ml.depends, tags: { extension:ml, file:init.ml, ocaml, ocamldep, quiet }
-/home/dgibson/.opam/4.02.1/bin/ocamldep.opt -modules init.ml > init.ml.depends # cached
-# Target: init.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:init.cmo, file:init.ml, implem, ocaml, quiet }
-/home/dgibson/.opam/4.02.1/bin/ocamlc.opt -c -o init.cmo init.ml # cached
-# Target: engine.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:engine.cmo, file:engine.ml, implem, ocaml, quiet }
-/home/dgibson/.opam/4.02.1/bin/ocamlc.opt -c -o engine.cmo engine.ml
+# Target: brain.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:brain.cmo, file:brain.ml, implem, ocaml, quiet }
+/home/dgibson/.opam/4.02.1/bin/ocamlc.opt -c -o brain.cmo brain.ml
 # Target: board.cmx, tags: { compile, extension:cmx, extension:ml, file:board.cmx, file:board.ml, implem, native, ocaml, quiet }
 /home/dgibson/.opam/4.02.1/bin/ocamlopt.opt -c -o board.cmx board.ml # cached
-# Target: init.cmx, tags: { compile, extension:cmx, extension:ml, file:init.cmx, file:init.ml, implem, native, ocaml, quiet }
-/home/dgibson/.opam/4.02.1/bin/ocamlopt.opt -c -o init.cmx init.ml # cached
-# Target: engine.cmx, tags: { compile, extension:cmx, extension:ml, file:engine.cmx, file:engine.ml, implem, native, ocaml, quiet }
-/home/dgibson/.opam/4.02.1/bin/ocamlopt.opt -c -o engine.cmx engine.ml
-# Target: engine.native, tags: { dont_link_with, extension:native, file:engine.native, link, native, ocaml, program, quiet }
-/home/dgibson/.opam/4.02.1/bin/ocamlopt.opt board.cmx init.cmx engine.cmx -o engine.native
+# Target: brain.cmx, tags: { compile, extension:cmx, extension:ml, file:brain.cmx, file:brain.ml, implem, native, ocaml, quiet }
+/home/dgibson/.opam/4.02.1/bin/ocamlopt.opt -c -o brain.cmx brain.ml
+# Target: brain.native, tags: { dont_link_with, extension:native, file:brain.native, link, native, ocaml, program, quiet }
+/home/dgibson/.opam/4.02.1/bin/ocamlopt.opt board.cmx brain.cmx -o brain.native
 # Compilation successful.

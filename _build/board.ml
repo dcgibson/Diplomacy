@@ -205,6 +205,8 @@ struct
             (string_of_country x.belongs_to) ^ ")"
 
         (* A BRE - PAR *)
+        (* A BRE supports A PAR - PIC *)
+        (* F MAO convoys A BRE to ENGLISH *)
         let rec string_of_order (x : force) : string =
             match !(x.command) with
             | Attack (lst) ->
@@ -214,15 +216,27 @@ struct
                     (fun acc p -> "- " ^ (string_of_province p) ^ acc)
                     ""
                     lst)
+            | Support (fc) -> 
+                (string_of_branch x.name) ^ " " ^
+                (string_of_province !(x.occupies)) ^ " " ^
+                "supports " ^
+                (string_of_order fc)
+            | Convoy (ofc, (p1, p2)) ->
+                (string_of_branch x.name) ^ " " ^
+                (string_of_province !(x.occupies)) ^ " " ^
+                "convoys " ^
+                (string_of_branch ofc.name) ^ " " ^
+                (string_of_province !(ofc.occupies)) ^ " " ^
+                "to " ^
+                p2.name
             | Hold -> 
                 (string_of_branch x.name) ^ " " ^
                 (string_of_province !(x.occupies)) ^ " " ^
                 "H"
-            | Support (fc) -> 
+            | Void ->
                 (string_of_branch x.name) ^ " " ^
                 (string_of_province !(x.occupies)) ^ " " ^
-                (string_of_order fc)
-            | _ -> ""
+                "Void"
 
 
         let string_of_board (bd : board) : string =

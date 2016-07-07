@@ -237,18 +237,12 @@ struct
                 (string_of_branch x.name) ^ " " ^
                 (string_of_province !(x.occupies)) ^ " " ^
                 "Void"
-
-
-        let string_of_board (bd : board) : string =
-            let rec string_of_provs (lst : province list) : string =
-                match lst with
-                | [] -> ""
-                | h::t -> (string_of_province h) ^ "\n" ^ string_of_provs t
-            in
-            (** First creates list of forces from hashtbl,
+        
+         (** First creates list of forces from hashtbl,
              * then recursively loops through, converting forces
              * to strings **)
-            let string_of_forces (tbl : (string, force) Hashtbl.t) =
+         let string_of_forces (tbl : (string, force) Hashtbl.t) =
+             (*
                 let lst = Hashtbl.fold (fun _ value l -> value :: l) tbl []
                 in
                 let rec helper (lst : force list) : string =
@@ -256,7 +250,18 @@ struct
                     | [] -> ""
                     | h::t -> (string_of_force h) ^ "\n" ^ helper t
                 in
-                helper lst
+                helper lst *)
+             Hashtbl.fold
+                (fun k v acc ->
+                    ((string_of_force v) ^ "\n") ^ acc)
+                tbl
+                ""
+
+        let string_of_board (bd : board) : string =
+            let rec string_of_provs (lst : province list) : string =
+                match lst with
+                | [] -> ""
+                | h::t -> (string_of_province h) ^ "\n" ^ string_of_provs t
             in
             "Provinces:\n" ^ (string_of_provs bd.provs) ^
             "Forces:\n" ^ (string_of_forces bd.forces)

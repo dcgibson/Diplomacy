@@ -45,9 +45,23 @@ let init_user bd =
     in
     let user_country = init_country () in
     print_string ((string_of_country user_country) ^ "\n");
+
     {name = user_country;
      supply_centers = sc_ref_list bd user_country;
      force_list = fc_ref_list bd user_country;}
+
+
+let init_AIs bd (lst: country list) =
+    List.fold_left
+        (fun acc c ->
+            let ai =
+                {name = c;
+                 supply_centers = sc_ref_list bd c;
+                 force_list = fc_ref_list bd c;
+                } in
+            ai::acc)
+        []
+        lst
 
 let rec game_turn (bd : board) =
     print_string "Options:\n";
@@ -60,17 +74,16 @@ let rec game_turn (bd : board) =
     | "B" -> print_string (string_of_board bd); game_turn bd
     | _ -> ()
 
+
 let start_game () =
 
     let game_board = init_forces init_board in
     let user = init_user game_board in
 
-    let countries = [England; France; Germany; Russia; Turkey; AH; Italy] in
-    let ai_countries = List.filter (fun x -> x != user.name) countries in
-    true
+    let ai_countries = List.filter (fun x -> x != user.name) [England; France; Germany; Russia; Turkey; AH; Italy] in
+    init_AIs game_board ai_countries
 ;;
 
-start_game ()
 
 
 

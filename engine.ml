@@ -63,7 +63,7 @@ let init_AIs bd (lst: country list) =
         []
         lst
 
-let rec game_turn (bd : board) =
+let rec game_turn (bd : board) (ct : country) =
     print_string "Options:\n";
     print_string "Print the board state (B)\n";
     print_string "Print your orders (O)\n";
@@ -71,7 +71,12 @@ let rec game_turn (bd : board) =
 
     let user_option = read_line () in
     match user_option with
-    | "B" -> print_string (string_of_board bd); game_turn bd
+    | "B" | "b" -> print_string (string_of_board bd); game_turn bd ct
+    | "O" | "o" ->
+            (*
+            let lst = fc_ref_list bd ct in
+            List.iter*)
+            ()
     | _ -> ()
 
 

@@ -12,8 +12,12 @@ struct
                      }
     type branch = Army | Fleet
     type state = Succeeds | Fails | Unresolved
-    type order = Attack of province list | Hold | Support of force |
-                 Convoy of force * province list | Void
+    type order = Attack of province list | 
+                 Support of force |
+                 (* force being convoyed, (pickup, dropoff) *)
+                 Convoy of force * (province * province) | 
+                 Hold |
+                 Void
     and
     force = {name : branch; 
              belongs_to : country;
@@ -70,11 +74,32 @@ struct
     (** Should inspect the order value for a province and test it's valid **)
     let valid_order (bd : board) (fc : force) : bool =
         match !(fc.command) with
-        | Attack(move_path) -> is_adjacent bd move_path 
+        | Attack(move_path) -> 
+                (* Tests whether move_path provinces are all adjacent *)
+                (is_adjacent bd move_path)
+                (* If the force is an army, and the move_path includes ocean
+                 * provinces, i.e. the army is being convoyed, then those provinces
+                 * must be occupied *)
+                && (if fc.name = Army
+                    then List.for_all 
+                            (fun p ->
+                                match p.climate with
+                                | Ocean -> !(p.occupied) = true
+                                | _ -> true)
+                            move_path
+                    else true)
         | Support(other_force) -> is_adjacent bd [!(fc.occupies); !(other_force.occupies)]
-        | Convoy(other_force, move_path) -> 
-                (is_adjacent bd [!(fc.occupies); !(other_force.occupies)]) &&
-                (is_adjacent bd ((!(fc.occupies))::move_path))
+        | Convoy(other_force, (p1, p2)) -> 
+                (* Tests whether pickup and dropoff are adjacent to the province
+                 * the convoying fleet occupies *)
+                (is_adjacent bd [!(fc.occupies); p1]) && (is_adjacent bd [!(fc.occupies); p2])
+                (* Tests whether, if the pickup and/or dropoff are seas, whether they
+                 * are occupied by fleets, which they must be if the convoy is to succeed *)
+                && (match p1.climate, p2.climate with
+                    | Ocean, Ocean -> !(p1.occupied) = true && !(p2.occupied) = true
+                    | Ocean, _ -> !(p1.occupied) = true
+                    | _, Ocean -> !(p2.occupied) = true
+                    | _, _ -> true)
         | _ -> true
    
     (* Given board and country, returns list of refs to sc's.
@@ -168,16 +193,37 @@ struct
         let string_of_province (x : province) : string =
             x.name
 
-        (** Army Pic (England) **)
+        let string_of_branch (name : branch) : string =
+            match name with
+            | Army -> "A"
+            | Fleet -> "F"
+
+        (** A PIC (England) **)
         let string_of_force (x : force) : string =
-            let string_of_branch (name : branch) : string =
-                match name with
-                | Army -> "Army"
-                | Fleet -> "Fleet"
-            in
             (string_of_branch x.name) ^ " " ^ 
             (string_of_province !(x.occupies)) ^ " (" ^
             (string_of_country x.belongs_to) ^ ")"
+
+        (* A BRE - PAR *)
+        let rec string_of_order (x : force) : string =
+            match !(x.command) with
+            | Attack (lst) ->
+                (string_of_branch x.name) ^ " " ^
+                (string_of_province !(x.occupies)) ^ " " ^
+                (List.fold_left 
+                    (fun acc p -> "- " ^ (string_of_province p) ^ acc)
+                    ""
+                    lst)
+            | Hold -> 
+                (string_of_branch x.name) ^ " " ^
+                (string_of_province !(x.occupies)) ^ " " ^
+                "H"
+            | Support (fc) -> 
+                (string_of_branch x.name) ^ " " ^
+                (string_of_province !(x.occupies)) ^ " " ^
+                (string_of_order fc)
+            | _ -> ""
+
 
         let string_of_board (bd : board) : string =
             let rec string_of_provs (lst : province list) : string =
